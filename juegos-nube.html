@@ -1,0 +1,29 @@
+Juegos en la Nube body { font-family: Arial, sans-serif; text-align: center; background-color: #121212; color: white; } .game-container { display: flex; justify-content: center; flex-wrap: wrap; margin-top: 20px; } .game-card { background: #1e1e1e; margin: 10px; padding: 15px; border-radius: 8px; width: 200px; } .game-card img { width: 100%; border-radius: 8px; } .game-card button { margin-top: 10px; padding: 5px 10px; border: none; background: #007bff; color: white; border-radius: 4px; cursor: pointer; } .chat-container { margin-top: 20px; padding: 10px; background: #1e1e1e; border-radius: 8px; width: 80%; margin-left: auto; margin-right: auto; } .chat-box { height: 200px; overflow-y: scroll; border: 1px solid #444; padding: 10px; background: #222; } .chat-input { width: 70%; padding: 10px; margin-top: 10px; border: none; border-radius: 4px; } .emoji-picker, .add-friend { width: 10%; display: inline-block; } .online-users, .friends-list, .notifications { margin-top: 20px; padding: 10px; background: #1e1e1e; border-radius: 8px; width: 30%; margin-left: auto; margin-right: auto; } .notification-popup { position: fixed; top: 20px; right: 20px; background: #333; color: white; padding: 10px 20px; border-radius: 10px; box-shadow: 0 0 10px #000; opacity: 0; transition: opacity 0.5s ease-in-out; z-index: 1000; } .notification-popup.show { opacity: 1; } .flash { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: white; opacity: 0; z-index: 999; pointer-events: none; } 
+
+Juega en la Nube Gratis
+
+Nombre de usuario: 
+
+￼ 
+
+Juego 1
+
+Jugar 
+
+￼ 
+
+Juego 2
+
+Jugar 
+
+Chat en Vivo
+
+😀😂😍😎👍 
+
+Usuarios en línea
+
+Lista de Amigos
+
+Notificaciones
+
+<div id="popup" class="notification-popup"></div> <audio id="notif-sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio> <script> let usersOnline = new Set(); let friends = new Set(); let notifiedFriends = new Set(); function playGame(url) { window.open(url, '_blank'); } function sendMessage(event) { if (event.key === "Enter") { let username = document.getElementById("username").value || "Invitado"; let message = document.getElementById("chat-input").value; if (message.trim() !== "") { let chatBox = document.getElementById("chat-box"); let newMessage = document.createElement("p"); newMessage.textContent = `${username}: ${message}`; chatBox.appendChild(newMessage); document.getElementById("chat-input").value = ""; chatBox.scrollTop = chatBox.scrollHeight; } } } function addEmoji() { let emojiPicker = document.getElementById("emoji-picker"); let chatInput = document.getElementById("chat-input"); chatInput.value += emojiPicker.options[emojiPicker.selectedIndex].text; } function updateOnlineUsers() { let username = document.getElementById("username").value || "Invitado"; if (!usersOnline.has(username)) { usersOnline.add(username); checkFriendNotifications(username); } let userList = document.getElementById("user-list"); userList.innerHTML = ""; usersOnline.forEach(user => { let li = document.createElement("li"); li.textContent = user; let addButton = document.createElement("button"); addButton.textContent = "Agregar"; addButton.onclick = function() { addFriend(user); }; li.appendChild(addButton); userList.appendChild(li); }); } function addFriend(user) { if (!friends.has(user)) { friends.add(user); let friendList = document.getElementById("friend-list"); let li = document.createElement("li"); li.textContent = user; friendList.appendChild(li); } } function checkFriendNotifications(currentUser) { friends.forEach(friend => { if (friend === currentUser && !notifiedFriends.has(friend)) { let notificationList = document.getElementById("notification-list"); let li = document.createElement("li"); li.textContent = `${friend} se ha conectado.`; notificationList.appendChild(li); notifiedFriends.add(friend); showPopup(`${friend} está en línea!`); document.getElementById("notif-sound").play(); flashScreen(); } }); } function showPopup(message) { const popup = document.getElementById("popup"); popup.textContent = message; popup.classList.add("show"); setTimeout(() => { popup.classList.remove("show"); }, 3000); } function flashScreen() { const flash = document.getElementById("flash"); flash.style.opacity = 0.5; setTimeout(() => { flash.style.opacity = 0; }, 300); } </script> 
